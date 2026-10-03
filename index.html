@@ -65,7 +65,7 @@
       <div class="surface rounded-3xl p-5 sm:p-6">
         <h3 class="font-bold text-lg mb-5">Investment assumptions</h3>
         <div class="space-y-6">
-          <div><div class="flex items-center justify-between gap-3 mb-2"><label for="sip-number" class="font-semibold text-sm">Monthly investment</label><span class="text-xs muted">₹500 – ₹5,00,000</span></div><div class="grid grid-cols-[1fr_142px] gap-3 items-center"><input id="sip-range" type="range" min="500" max="500000" step="500" value="5000" aria-label="Monthly investment slider"><input id="sip-number" class="field text-right font-semibold" type="number" min="500" max="500000" step="500" value="5000" inputmode="numeric"></div></div>
+          <div><div class="flex items-center justify-between gap-3 mb-2"><label for="sip-number" class="font-semibold text-sm">Monthly investment</label><span class="text-xs muted">₹500 – ₹5,00,000</span></div><div class="grid grid-cols-[1fr_142px] gap-3 items-center"><input id="sip-range" type="range" min="500" max="500000" step="500" value="5000" aria-label="Monthly investment slider"><input id="sip-number" class="field text-right font-semibold" type="number" min="500" max="500000" step="any" value="5000" inputmode="numeric"></div></div>
           <div><div class="flex items-center justify-between gap-3 mb-2"><label for="return-number" class="font-semibold text-sm">Expected annual return</label><span class="text-xs muted">1% – 30%</span></div><div class="grid grid-cols-[1fr_110px] gap-3 items-center"><input id="return-range" type="range" min="1" max="30" step=".5" value="12" aria-label="Expected return slider"><div class="relative"><input id="return-number" class="field text-right pr-8 font-semibold" type="number" min="1" max="30" step=".5" value="12"><span class="absolute right-3 top-1/2 -translate-y-1/2 muted">%</span></div></div></div>
           <div><div class="flex items-center justify-between gap-3 mb-2"><label for="years-number" class="font-semibold text-sm">Investment period</label><span class="text-xs muted">1 – 40 years</span></div><div class="grid grid-cols-[1fr_110px] gap-3 items-center"><input id="years-range" type="range" min="1" max="40" step="1" value="15" aria-label="Investment period slider"><div class="relative"><input id="years-number" class="field text-right pr-12 font-semibold" type="number" min="1" max="40" step="1" value="15"><span class="absolute right-3 top-1/2 -translate-y-1/2 muted">years</span></div></div></div>
           <div class="pt-5 border-t line"><div class="flex items-center justify-between gap-3 mb-2"><label for="step-number" class="font-semibold text-sm">Annual step-up</label><span id="step-label" class="text-sm font-bold brand">10%</span></div><p class="text-xs muted mb-3">Increase your monthly SIP once each year.</p><input id="step-range" type="range" min="0" max="25" step="1" value="10" aria-label="Annual step-up percentage"><div class="flex justify-between text-xs muted mt-1"><span>0%</span><span>25%</span></div></div>
@@ -193,8 +193,26 @@
   }
   fields.forEach(([range,num,min,max,step])=>{
     $(range).addEventListener('input',()=>{ $(num).value=$(range).value;render(); });
-    $(num).addEventListener('input',()=>{if($(num).value!=='' ){const v=clamp($(num).value,min,max);$(range).value=v;render();}});
-    $(num).addEventListener('change',()=>{ $(num).value=clamp($(num).value,min,max);render(); });
+    // Do not clamp or rewrite the number field while the user is typing.
+    // This allows replacing 500 with 10000 naturally without fighting the cursor.
+    $(num).addEventListener('input',()=>{
+      const text=$(num).value.trim();
+      if(text==='') return;
+      const raw=Number(text);
+      if(!Number.isFinite(raw)) return;
+      $(range).value=String(clamp(raw,min,max));
+      render();
+    });
+    const commitNumber=()=>{
+      const text=$(num).value.trim();
+      const raw=text===''?min:Number(text);
+      const value=clamp(Number.isFinite(raw)?raw:min,min,max);
+      $(num).value=String(value);
+      $(range).value=String(value);
+      render();
+    };
+    $(num).addEventListener('change',commitNumber);
+    $(num).addEventListener('blur',commitNumber);
   });
   $('step-range').addEventListener('input',render);$('inflation-range').addEventListener('input',render);
   function applyPreset(name){
