@@ -214,17 +214,17 @@
   }
   $('sip-number').addEventListener('input',()=>{
     const text=$('sip-number').value.trim();
-    if(text===''){$('sip-range').value='500';return;}
+    // Recalculate on every edit; keep the visible field empty while the user is clearing it.
+    if(text===''){$('sip-range').value='500';render();return;}
     const raw=readSipInput();
     if(!Number.isFinite(raw))return;
     const value=clamp(raw,500,500000);
     $('sip-range').value=String(value);
-    // render() intentionally does not rewrite the text input while typing.
     render();
   });
   $('sip-number').addEventListener('change',commitSipInput);
   $('sip-number').addEventListener('blur',commitSipInput);
-  $('sip-clear').addEventListener('click',()=>{$('sip-number').value='';$('sip-number').focus();});
+  $('sip-clear').addEventListener('click',()=>{$('sip-number').value='';$('sip-range').value='500';render();$('sip-number').focus();});
   $('sip-range').addEventListener('input',()=>{$('sip-number').value=formatSipInput(Number($('sip-range').value));render();});
   fields.filter(([range])=>range!=='sip-range').forEach(([range,num,min,max])=>{
     $(range).addEventListener('input',()=>{ $(num).value=$(range).value;render(); });
