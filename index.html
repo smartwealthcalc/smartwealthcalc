@@ -104,6 +104,44 @@
       <article class="surface rounded-3xl p-6"><div class="w-11 h-11 rounded-2xl flex items-center justify-center mb-4" style="background:var(--soft);color:var(--brand2)"><i data-lucide="scale" width="22"></i></div><h2 class="text-xl font-extrabold">Inflation and future purchasing power</h2><p class="muted leading-relaxed mt-3">Inflation means the same amount of money may buy fewer goods and services in the future. A projected corpus of ₹1 crore 20 years from now will not necessarily buy what ₹1 crore buys today. The real-value estimate discounts the future corpus using your selected annual inflation assumption.</p><p class="text-sm mt-4 font-semibold">Try it: change inflation from 0% to 6% to see the difference in today's money.</p></article>
     </div>
   </section>
+  <section id="goal-planner" class="section-anchor py-8">
+    <div class="surface rounded-3xl p-5 sm:p-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+        <div><p class="brand font-bold text-sm">GOAL PLANNER</p><h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Turn your goal into a monthly plan</h2><p class="muted mt-2">Work backwards from a target, or estimate when your current SIP may reach it.</p></div>
+        <div class="inline-flex rounded-xl p-1 gap-1" style="background:var(--soft)" role="group" aria-label="Goal planning method">
+          <button type="button" id="goal-mode-required" class="chip active" aria-pressed="true">Target → SIP</button>
+          <button type="button" id="goal-mode-date" class="chip" aria-pressed="false">SIP → Target date</button>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-[.9fr_1.1fr] gap-6 items-start">
+        <div class="space-y-4">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <label class="text-sm font-semibold">Target amount (₹)<input id="goal-target" class="field mt-2" type="number" min="1000" max="100000000000" step="1000" value="10000000"></label>
+            <label class="text-sm font-semibold">Current invested corpus (₹)<input id="goal-corpus" class="field mt-2" type="number" min="0" max="100000000000" step="1000" value="0"></label>
+            <label class="text-sm font-semibold">Expected annual return (%)<input id="goal-return" class="field mt-2" type="number" min="0" max="30" step=".5" value="12"></label>
+            <label class="text-sm font-semibold">Monthly SIP (₹)<input id="goal-sip" class="field mt-2" type="number" min="0" max="50000000" step="500" value="10000"></label>
+            <label class="text-sm font-semibold">Annual SIP step-up (%)<input id="goal-step" class="field mt-2" type="number" min="0" max="25" step="1" value="10"></label>
+            <label class="text-sm font-semibold">Inflation assumption (%)<input id="goal-inflation" class="field mt-2" type="number" min="0" max="12" step=".5" value="6"></label>
+            <label class="text-sm font-semibold sm:col-span-2">Target horizon (years)<input id="goal-years" class="field mt-2" type="number" min="1" max="60" step="1" value="15"></label>
+          </div>
+          <div class="flex flex-wrap gap-2"><button class="chip" data-goal-target="100000">₹1 lakh</button><button class="chip" data-goal-target="1000000">₹10 lakh</button><button class="chip" data-goal-target="10000000">₹1 crore</button><button class="chip" data-goal-target="50000000">₹5 crore</button></div>
+          <div class="flex flex-wrap items-center gap-3"><label class="inline-flex items-center gap-2 text-sm font-semibold"><input id="goal-inflation-enabled" type="checkbox" checked> Adjust target for inflation</label><label class="inline-flex items-center gap-2 text-sm font-semibold"><input id="goal-step-enabled" type="checkbox" checked> Use annual step-up</label></div>
+          <p class="text-xs muted">Assumptions: monthly contributions at month-end, fixed illustrative return, annual step-up applied at each new investment year. This is not a return forecast or guarantee.</p>
+        </div>
+        <div>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="metric"><p id="goal-primary-label" class="text-sm muted">Required monthly SIP</p><p id="goal-primary" class="metric-value mt-2 brand" aria-live="polite">—</p><p id="goal-primary-note" class="text-xs muted mt-2">For your selected target horizon</p></div>
+            <div class="metric"><p class="text-sm muted">Estimated target date</p><p id="goal-date" class="metric-value mt-2">—</p><p id="goal-date-note" class="text-xs muted mt-2">Based on these assumptions</p></div>
+            <div class="metric"><p class="text-sm muted">Projected corpus at horizon</p><p id="goal-projected" class="metric-value mt-2">—</p></div>
+            <div class="metric"><p class="text-sm muted">Target gap / surplus</p><p id="goal-gap" class="metric-value mt-2">—</p></div>
+          </div>
+          <div id="goal-status" class="rounded-2xl p-4 mt-3 text-sm" style="background:var(--soft)" aria-live="polite">Adjust your target and assumptions to see an estimate.</div>
+          <div class="surface rounded-2xl p-4 mt-4"><div class="flex items-center justify-between gap-3 mb-2"><h3 class="font-bold">Year-by-year goal trajectory</h3><span class="text-xs muted">Illustrative</span></div><div class="h-64"><canvas id="goal-chart" role="img" aria-label="Projected corpus compared with goal over time"></canvas></div></div>
+          <div class="table-wrap mt-4"><table><thead><tr><th>Year</th><th>Invested total</th><th>Projected corpus</th><th>Goal progress</th></tr></thead><tbody id="goal-table"></tbody></table></div>
+        </div>
+      </div>
+    </div>
+  </section>
   <section id="formula" class="py-8">
     <div class="surface rounded-3xl p-6 sm:p-8"><p class="brand font-bold text-sm">THE MATHEMATICS</p><h2 class="text-2xl font-extrabold mt-1">How the estimate is calculated</h2><p class="muted mt-3 leading-relaxed">For a fixed monthly investment with no step-up, the future value of an ordinary annuity is:</p><div class="formula rounded-xl p-4 my-4 text-sm sm:text-base" style="background:var(--soft)">FV = P × [((1 + r)<sup>n</sup> − 1) / r]</div><ul class="muted text-sm space-y-2"><li><strong style="color:var(--ink)">P</strong> = monthly contribution</li><li><strong style="color:var(--ink)">r</strong> = assumed monthly return (annual rate ÷ 12)</li><li><strong style="color:var(--ink)">n</strong> = total number of monthly contributions</li></ul><p class="muted text-sm mt-4 leading-relaxed">With annual step-up, the calculator projects each month's contribution using the annual increase and compounds it to the end of the selected period. Real purchasing power is estimated as future value ÷ (1 + inflation)<sup>years</sup>. Calculations are illustrative and do not account for taxes, expense ratios, exit loads or changing market returns.</p></div>
   </section>
@@ -157,7 +195,7 @@
   const compact=n=>{if(!Number.isFinite(n))return '₹0';if(n>=1e7)return '₹'+(n/1e7).toFixed(n>=1e8?1:2)+' Cr';if(n>=1e5)return '₹'+(n/1e5).toFixed(n>=1e6?1:2)+' L';return fmt(n)};
   const clamp=(n,min,max)=>Math.min(max,Math.max(min,Number(n)||min));
   const fields=[['sip-range','sip-number',500,500000,500],['return-range','return-number',1,30,.5],['years-range','years-number',1,40,1]];
-  let donutChart=null,growthChart=null,lastCalc=null;
+  let donutChart=null,growthChart=null,goalChart=null,lastCalc=null,goalMode='required';
   function calculate(sip,annualReturn,years,stepPct,inflationPct){
     const months=years*12, monthlyRate=annualReturn/100/12, step=stepPct/100;
     let corpus=0,invested=0,yearly=[],yearContrib= sip;
@@ -267,6 +305,77 @@
     report.innerHTML='<h1>SmartWealthCalc — SIP Summary Report</h1><p>Generated '+new Date().toLocaleDateString('en-IN')+'</p><hr><h2>Assumptions</h2><p>Monthly SIP: '+fmt(d.sip)+'</p><p>Expected annual return: '+d.annualReturn+'%</p><p>Investment period: '+d.years+' years</p><p>Annual step-up: '+d.stepPct+'%</p><p>Inflation assumption: '+d.inflationPct+'%</p><hr><h2>Illustrative results</h2><p>Total invested: '+fmt(d.invested)+'</p><p>Estimated future value: '+fmt(d.corpus)+'</p><p>Net wealth gain: '+fmt(d.gain)+'</p><p>Real value in today\'s money: '+fmt(d.real)+'</p><hr><p>Educational estimate only, not SEBI-registered investment advice. Returns are not guaranteed. Actual outcomes may differ.</p>';
     const old=document.querySelector('.generated-print');if(old)old.remove();report.classList.add('generated-print');document.body.appendChild(report);window.print();setTimeout(()=>report.remove(),1000);
   });
+  function goalProjection(sip,annualReturn,years,stepPct,corpus){
+    const rows=[{year:0,invested:0,corpus}],monthly=annualReturn/1200,step=stepPct/100;
+    let balance=corpus,invested=corpus,hitMonth=null;
+    for(let m=1;m<=years*12;m++){
+      const contribution=sip*Math.pow(1+step,Math.floor((m-1)/12));
+      balance=balance*(1+monthly)+contribution;invested+=contribution;
+      if(m%12===0||m===years*12)rows.push({year:Math.ceil(m/12),invested,corpus:balance});
+    }
+    return {rows,corpus:balance,invested};
+  }
+  function goalMonthsToTarget(sip,annualReturn,maxYears,stepPct,corpus,target){
+    const monthly=annualReturn/1200,step=stepPct/100;let balance=corpus,invested=corpus;
+    if(balance>=target)return {months:0,balance,invested};
+    for(let m=1;m<=maxYears*12;m++){
+      balance=balance*(1+monthly)+sip*Math.pow(1+step,Math.floor((m-1)/12));
+      invested+=sip*Math.pow(1+step,Math.floor((m-1)/12));
+      if(balance>=target)return {months:m,balance,invested};
+    }
+    return null;
+  }
+  function requiredGoalSip(target,annualReturn,years,stepPct,corpus){
+    const months=years*12,monthly=annualReturn/1200,step=stepPct/100;
+    const futureCorpus=corpus*Math.pow(1+monthly,months);
+    const unit=goalProjection(1,annualReturn,years,step,0).corpus;
+    return unit>0?Math.max(0,(target-futureCorpus)/unit):Infinity;
+  }
+  function initGoalChart(){
+    if(!window.Chart||!$('goal-chart'))return;
+    const c=themeColors();
+    goalChart=new Chart($('goal-chart'),{type:'line',data:{labels:['Start'],datasets:[{label:'Projected corpus',data:[0],borderColor:c.brand,backgroundColor:c.brand+'22',fill:true,tension:.2},{label:'Goal amount',data:[0],borderColor:c.brand2,borderDash:[6,5],pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:c.text,usePointStyle:true,boxWidth:8}},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+fmt(ctx.raw)}}},scales:{x:{ticks:{color:c.text,maxTicksLimit:8},grid:{color:c.grid}},y:{ticks:{color:c.text,callback:v=>compact(v)},grid:{color:c.grid}}}}});
+  }
+  function renderGoal(){
+    if(!$('goal-target'))return;
+    const target=Math.max(1000,Number($('goal-target').value)||1000);
+    const corpus=Math.max(0,Number($('goal-corpus').value)||0);
+    const annualReturn=Math.min(30,Math.max(0,Number($('goal-return').value)||0));
+    const sip=Math.max(0,Number($('goal-sip').value)||0);
+    const years=Math.min(60,Math.max(1,Math.floor(Number($('goal-years').value)||1)));
+    const stepPct=$('goal-step-enabled').checked?Math.min(25,Math.max(0,Number($('goal-step').value)||0)):0;
+    const inflationPct=$('goal-inflation-enabled').checked?Math.min(12,Math.max(0,Number($('goal-inflation').value)||0)):0;
+    const nominalTarget=target, adjustedTarget=target*Math.pow(1+inflationPct/100,years);
+    const effectiveTarget=$('goal-inflation-enabled').checked?adjustedTarget:nominalTarget;
+    const required=requiredGoalSip(effectiveTarget,annualReturn,years,stepPct,corpus);
+    const trajectory=goalProjection(sip,annualReturn,years,stepPct,corpus);
+    const hit=goalMonthsToTarget(sip,annualReturn,60,stepPct,corpus,effectiveTarget);
+    const targetDate=hit?new Date(new Date().getFullYear(),new Date().getMonth()+hit.months,1):null;
+    const selectedProjection=goalProjection(sip,annualReturn,years,stepPct,corpus);
+    const gap=selectedProjection.corpus-effectiveTarget;
+    $('goal-primary-label').textContent=goalMode==='required'?'Required monthly SIP':'Your monthly SIP';
+    $('goal-primary').textContent=goalMode==='required'?(Number.isFinite(required)?fmt(required):'Not reachable') :fmt(sip);
+    $('goal-primary-note').textContent=goalMode==='required'?'Estimated starting SIP for the selected horizon':'Amount used for the target-date estimate';
+    $('goal-date').textContent=hit?(targetDate.toLocaleDateString('en-IN',{month:'short',year:'numeric'})):'Beyond 60 years';
+    $('goal-date-note').textContent=hit?(hit.months===0?'Target already reached':hit.months+' months from now'):'Target not reached within the 60-year model';
+    $('goal-projected').textContent=fmt(selectedProjection.corpus);
+    $('goal-gap').textContent=(gap>=0?'+':'−')+fmt(Math.abs(gap));
+    $('goal-status').textContent=hit?(hit.months===0?'Your current corpus already meets this target.':('At the assumed return and contribution pattern, the target may be reached in about '+hit.months+' months.')):'At these assumptions, the selected SIP does not reach the target within 60 years. Increase contributions, extend the horizon or revise assumptions.';
+    const rows=[{year:0,invested:corpus,corpus} ,...trajectory.rows.slice(1)];
+    $('goal-table').innerHTML=rows.map(r=>'<tr><td>'+r.year+'</td><td>'+fmt(r.invested)+'</td><td>'+fmt(r.corpus)+'</td><td>'+Math.min(999,Math.max(0,r.corpus/effectiveTarget*100)).toFixed(1)+'%</td></tr>').join('');
+    if(goalChart){
+      const colors=themeColors();goalChart.data.labels=rows.map(r=>r.year===0?'Today':'Year '+r.year);
+      goalChart.data.datasets[0].data=rows.map(r=>Math.round(r.corpus));
+      goalChart.data.datasets[1].data=rows.map(()=>Math.round(effectiveTarget));
+      goalChart.data.datasets.forEach(ds=>{ds.borderColor=ds.label==='Goal amount'?colors.brand2:colors.brand;});
+      goalChart.options.plugins.legend.labels.color=colors.text;goalChart.options.scales.x.ticks.color=colors.text;goalChart.options.scales.y.ticks.color=colors.text;goalChart.options.scales.x.grid.color=colors.grid;goalChart.options.scales.y.grid.color=colors.grid;goalChart.update();
+    }
+  }
+  ['goal-target','goal-corpus','goal-return','goal-sip','goal-step','goal-inflation','goal-years','goal-step-enabled','goal-inflation-enabled'].forEach(id=>$(id).addEventListener('input',renderGoal));
+  ['goal-target','goal-corpus','goal-return','goal-sip','goal-step','goal-inflation','goal-years','goal-step-enabled','goal-inflation-enabled'].forEach(id=>$(id).addEventListener('change',renderGoal));
+  $('goal-mode-required').addEventListener('click',()=>{goalMode='required';$('goal-mode-required').classList.add('active');$('goal-mode-date').classList.remove('active');$('goal-mode-required').setAttribute('aria-pressed','true');$('goal-mode-date').setAttribute('aria-pressed','false');renderGoal();});
+  $('goal-mode-date').addEventListener('click',()=>{goalMode='date';$('goal-mode-date').classList.add('active');$('goal-mode-required').classList.remove('active');$('goal-mode-date').setAttribute('aria-pressed','true');$('goal-mode-required').setAttribute('aria-pressed','false');renderGoal();});
+  document.querySelectorAll('[data-goal-target]').forEach(b=>b.addEventListener('click',()=>{$('goal-target').value=b.dataset.goalTarget;renderGoal();}));
   function buildExamples(){
     const body=$('example-table');const sips=[1000,5000,10000,25000],periods=[5,10,15,20];
     body.innerHTML=sips.map(sip=>'<tr><td class="font-semibold">'+fmt(sip)+'</td>'+periods.map(y=>'<td>'+fmt(calculate(sip,12,y,0,0).corpus)+'</td>').join('')+'</tr>').join('');
@@ -298,7 +407,7 @@
   document.querySelectorAll('footer a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
     const id=a.getAttribute('href').slice(1);if(['privacy','terms','disclaimer','contact'].includes(id)){e.preventDefault();alert(({privacy:'Privacy: calculator inputs are processed locally in this browser. No analytics or ad scripts are active unless you add them in the marked placeholders.',terms:'Terms: this tool is provided for educational use without warranties. Verify assumptions and results independently.',disclaimer:'Educational tool only, not SEBI-registered investment advice. No return is guaranteed.',contact:'Contact: add your preferred support email before publishing.'})[id]);}
   }));
-  loadQuery();buildExamples();initCharts();render();loanCalc();if(window.lucide)lucide.createIcons();
+  loadQuery();buildExamples();initCharts();initGoalChart();render();renderGoal();loanCalc();if(window.lucide)lucide.createIcons();
 })();
 </script>
 </body>
