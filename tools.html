@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>All Financial Calculators | SmartWealthCalc</title>
+  <meta name="description" content="Explore 12 free financial calculators for SIP, loans, tax, salary, retirement, inflation and education planning. Private, instant calculations with SmartWealthCalc.">
+  <meta name="keywords" content="financial calculators, SIP calculator, loan EMI calculator, tax calculator India, salary calculator, retirement calculator, SWP calculator">
+  <meta name="robots" content="index,follow">
+  <!-- Add your verified production-domain canonical URL here before launch. -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="All Financial Calculators | SmartWealthCalc">
+  <meta property="og:description" content="Find free tools for investing, borrowing, taxes, salary and long-term financial goals.">
+  <!-- G-TAG HERE -->
+  <!-- ADSENSE CODE HERE -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root{color-scheme:light;--bg:#f5f7fb;--surface:#fff;--ink:#152238;--muted:#65748b;--line:#e4eaf2;--brand:#2563eb;--brand2:#0d9488;--soft:#eff6ff;--shadow:0 12px 36px rgba(15,23,42,.06)}
+    html.dark{color-scheme:dark;--bg:#0b1220;--surface:#111c2e;--ink:#e8eef8;--muted:#9aabc2;--line:#26364d;--brand:#7aa7ff;--brand2:#5eead4;--soft:#142b48;--shadow:0 12px 36px rgba(0,0,0,.18)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background .2s,color .2s}
+    .surface{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}.muted{color:var(--muted)}.line{border-color:var(--line)}.brand{color:var(--brand)}.btn-primary{background:var(--brand);color:white}.btn-primary:hover{filter:brightness(1.08)}.btn-secondary{border:1px solid var(--line);background:var(--surface);color:var(--ink)}.btn-secondary:hover{background:var(--soft)}
+    .field{width:100%;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:.85rem;padding:.85rem 1rem;outline:none}.field:focus{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)}.chip{border:1px solid var(--line);border-radius:999px;padding:.55rem .95rem;font-size:.84rem;font-weight:650;background:var(--surface);color:var(--ink);transition:all .15s}.chip:hover,.chip.active{border-color:var(--brand);background:var(--soft);color:var(--brand)}.tool-card{display:flex;flex-direction:column;min-height:100%;transition:transform .18s,border-color .18s}.tool-card:hover{transform:translateY(-3px);border-color:var(--brand)}.icon-tile{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:15px;background:var(--soft);color:var(--brand);flex-shrink:0}.badge{display:inline-flex;align-items:center;border-radius:999px;padding:.28rem .58rem;font-size:.68rem;line-height:1rem;font-weight:800;letter-spacing:.035em;text-transform:uppercase}.badge-featured{background:#fff1cf;color:#8a5700}.dark .badge-featured{background:#493719;color:#ffdc8a}.badge-category{background:var(--soft);color:var(--brand)}.ad-slot-responsive{width:100%;min-height:90px;display:flex;align-items:center;justify-content:center;border:1px dashed var(--line);border-radius:1rem;color:var(--muted);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;background:color-mix(in srgb,var(--surface) 70%,transparent)}.skip-link{position:absolute;left:-9999px}.skip-link:focus{left:1rem;top:1rem;z-index:100;background:var(--surface);padding:1rem}.section-anchor{scroll-margin-top:90px}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to tools</a>
+<header class="sticky top-0 z-40 border-b line" style="background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+    <a href="index.html" class="flex items-center gap-2 font-extrabold tracking-tight text-lg" aria-label="SmartWealthCalc home"><span class="w-9 h-9 rounded-xl flex items-center justify-center text-white" style="background:var(--brand)"><i data-lucide="trending-up" width="21"></i></span><span>SmartWealth<span class="brand">Calc</span></span></a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold muted" aria-label="Main navigation"><a href="tools.html" class="brand">All Tools</a><a href="index.html#calculator" class="hover:brand">SIP &amp; Wealth</a><a href="index.html#loan" class="hover:brand">Loan Prepayment</a><a href="index.html#tax" class="hover:brand">Tax Planner</a><a href="#guide" class="hover:brand">Guides</a></nav>
+    <div class="flex items-center gap-2"><button id="theme-toggle" class="btn-secondary rounded-xl p-2.5" aria-label="Switch color theme" title="Toggle dark/light mode"><i data-lucide="moon" id="theme-icon" width="18"></i></button><button id="menu-toggle" class="btn-secondary rounded-xl p-2.5 lg:hidden" aria-label="Toggle navigation" aria-expanded="false"><i data-lucide="menu" width="18"></i></button></div>
+  </div>
+  <nav id="mobile-nav" class="hidden px-4 pb-4 flex-col gap-3 text-sm font-semibold muted lg:hidden" aria-label="Mobile navigation"><a href="tools.html">All Tools</a><a href="index.html#calculator">SIP &amp; Wealth</a><a href="index.html#loan">Loan Prepayment</a><a href="index.html#tax">Tax Planner</a><a href="#guide">Guides</a></nav>
+</header>
+<main id="main" class="max-w-7xl mx-auto px-4 sm:px-6">
+  <section class="pt-10 sm:pt-16 pb-8">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold mb-5" style="background:var(--soft);color:var(--brand)"><i data-lucide="sparkles" width="14"></i> FREE FINANCIAL TOOLKIT</div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">Everyday money decisions,<br><span class="brand">made clearer.</span></h1>
+      <p class="mt-5 text-lg leading-relaxed muted">Explore free calculators for investing, loans, taxes, salary and future goals. Compare scenarios, understand assumptions and plan at your own pace—without creating an account.</p>
+    </div>
+  </section>
+  <div class="ad-slot-responsive my-5" aria-label="Advertisement space">Advertisement</div>
+  <section class="py-7 section-anchor" aria-labelledby="tools-heading">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+      <div><p class="brand font-bold text-sm">THE CALCULATOR LIBRARY</p><h2 id="tools-heading" class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1">Find the right tool</h2><p class="muted mt-2">Search by name or filter by your planning need.</p></div>
+      <p id="result-count" class="text-sm muted" aria-live="polite">Showing 12 calculators</p>
+    </div>
+    <div class="surface rounded-2xl p-3 sm:p-4 mb-5">
+      <label for="tool-search" class="sr-only">Search any calculator</label>
+      <div class="relative"><i data-lucide="search" width="19" class="absolute left-4 top-1/2 -translate-y-1/2 muted"></i><input id="tool-search" class="field pl-11" type="search" placeholder="Search any calculator..." autocomplete="off" aria-describedby="search-help"><span id="search-help" class="sr-only">Results update as you type. Use category filters below to narrow the list.</span></div>
+      <div id="filters" class="flex flex-wrap gap-2 mt-4" role="group" aria-label="Filter calculators by category">
+        <button class="chip active" data-filter="All" aria-pressed="true">All</button><button class="chip" data-filter="SIP &amp; Wealth" aria-pressed="false">SIP &amp; Wealth</button><button class="chip" data-filter="Loans &amp; Debt" aria-pressed="false">Loans &amp; Debt</button><button class="chip" data-filter="Tax &amp; Salary" aria-pressed="false">Tax &amp; Salary</button><button class="chip" data-filter="Retirement" aria-pressed="false">Retirement</button>
+      </div>
+    </div>
+    <div id="tool-grid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
+      <article class="tool-card surface rounded-2xl p-5" data-category="SIP &amp; Wealth" data-search="step-up sip calculator featured monthly investment annual increase compounding wealth">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="trending-up" width="24"></i></span><span class="badge badge-featured">Featured</span></div><div class="mt-5"><span class="badge badge-category">SIP &amp; Wealth</span><h3 class="text-xl font-bold mt-3">Step-Up SIP Calculator</h3><p class="muted text-sm leading-relaxed mt-2">Estimate how increasing your monthly SIP each year may affect your long-term investment corpus.</p></div><div class="mt-auto pt-5"><a href="index.html#calculator" class="btn-primary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Calculate now <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="SIP &amp; Wealth" data-search="lumpsum calculator one time investment compound returns">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="wallet" width="24"></i></span><span class="badge badge-category">Popular</span></div><div class="mt-5"><span class="badge badge-category">SIP &amp; Wealth</span><h3 class="text-xl font-bold mt-3">Lumpsum Calculator</h3><p class="muted text-sm leading-relaxed mt-2">Project the potential future value of a one-time investment using an assumed return and time horizon.</p></div><div class="mt-auto pt-5"><a href="index.html#calculator" class="btn-secondary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Explore calculator <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="SIP &amp; Wealth" data-search="SWP systematic withdrawal plan calculator monthly income retirement corpus">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="calendar-clock" width="24"></i></span><span class="badge badge-category">Monthly income</span></div><div class="mt-5"><span class="badge badge-category">SIP &amp; Wealth</span><h3 class="text-xl font-bold mt-3">SWP Calculator</h3><p class="muted text-sm leading-relaxed mt-2">Model scheduled withdrawals from an investment corpus and see how assumed returns may affect its balance.</p></div><div class="mt-auto pt-5"><a href="index.html#calculator" class="btn-secondary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Explore calculator <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="Loans &amp; Debt" data-search="home loan prepayment EMI saver featured interest savings tenure reduction">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="house" width="24"></i></span><span class="badge badge-featured">Featured</span></div><div class="mt-5"><span class="badge badge-category">Loans &amp; Debt</span><h3 class="text-xl font-bold mt-3">Home Loan Prepayment &amp; EMI Saver</h3><p class="muted text-sm leading-relaxed mt-2">Estimate interest savings and possible tenure reduction when you make an extra principal payment.</p></div><div class="mt-auto pt-5"><a href="index.html#loan" class="btn-primary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Calculate savings <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="Loans &amp; Debt" data-search="car personal loan EMI calculator monthly instalment borrowing">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="car-front" width="24"></i></span><span class="badge badge-category">EMI</span></div><div class="mt-5"><span class="badge badge-category">Loans &amp; Debt</span><h3 class="text-xl font-bold mt-3">Car &amp; Personal Loan EMI Calculator</h3><p class="muted text-sm leading-relaxed mt-2">Estimate monthly instalments, total repayment and interest for a fixed-rate loan.</p></div><div class="mt-auto pt-5"><a href="index.html#loan" class="btn-secondary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Explore calculator <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="Tax &amp; Salary" data-search="old vs new tax regime comparator income tax India deductions">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="scale" width="24"></i></span><span class="badge badge-category">India tax</span></div><div class="mt-5"><span class="badge badge-category">Tax &amp; Salary</span><h3 class="text-xl font-bold mt-3">Old vs New Tax Regime Comparator</h3><p class="muted text-sm leading-relaxed mt-2">Compare estimated tax under both regimes using your income, eligible deductions and the relevant tax year rules.</p></div><div class="mt-auto pt-5"><a href="index.html#tax" class="btn-secondary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Compare regimes <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="Tax &amp; Salary" data-search="CTC to in-hand salary calculator take home salary deductions PF tax">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="wallet-cards" width="24"></i></span><span class="badge badge-category">Take-home pay</span></div><div class="mt-5"><span class="badge badge-category">Tax &amp; Salary</span><h3 class="text-xl font-bold mt-3">CTC to In-Hand Salary Calculator</h3><p class="muted text-sm leading-relaxed mt-2">Break down annual CTC into an indicative monthly take-home estimate after common deductions.</p></div><div class="mt-auto pt-5"><a href="index.html#tax" class="btn-secondary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Estimate salary <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="SIP &amp; Wealth" data-search="SIP vs fixed deposit FD comparator compare investment">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="git-compare-arrows" width="24"></i></span><span class="badge badge-category">Compare</span></div><div class="mt-5"><span class="badge badge-category">SIP &amp; Wealth</span><h3 class="text-xl font-bold mt-3">SIP vs Fixed Deposit (FD)</h3><p class="muted text-sm leading-relaxed mt-2">Compare illustrative recurring investment growth with an FD estimate while considering risk and tax differences.</p></div><div class="mt-auto pt-5"><a href="index.html#calculator" class="btn-secondary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Compare scenarios <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="SIP &amp; Wealth" data-search="CAGR XIRR calculator annualized return irregular cash flows">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="chart-no-axes-combined" width="24"></i></span><span class="badge badge-category">Returns</span></div><div class="mt-5"><span class="badge badge-category">SIP &amp; Wealth</span><h3 class="text-xl font-bold mt-3">CAGR &amp; XIRR Calculator</h3><p class="muted text-sm leading-relaxed mt-2">Understand annualised growth for a single start/end value and money-weighted returns for dated cash flows.</p></div><div class="mt-auto pt-5"><a href="index.html#calculator" class="btn-secondary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Explore returns <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="SIP &amp; Wealth" data-search="inflation purchasing power calculator real value future money">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="shopping-basket" width="24"></i></span><span class="badge badge-category">Purchasing power</span></div><div class="mt-5"><span class="badge badge-category">SIP &amp; Wealth</span><h3 class="text-xl font-bold mt-3">Inflation &amp; Purchasing Power</h3><p class="muted text-sm leading-relaxed mt-2">Translate a future amount into today's money or estimate how prices may change under an assumed inflation rate.</p></div><div class="mt-auto pt-5"><a href="index.html#calculator" class="btn-secondary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Estimate real value <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="Retirement" data-search="retirement corpus calculator retirement planning monthly expenses">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="sunrise" width="24"></i></span><span class="badge badge-category">Long-term goal</span></div><div class="mt-5"><span class="badge badge-category">Retirement</span><h3 class="text-xl font-bold mt-3">Retirement Corpus Calculator</h3><p class="muted text-sm leading-relaxed mt-2">Estimate a target retirement corpus from future expenses, inflation assumptions and a chosen retirement horizon.</p></div><div class="mt-auto pt-5"><a href="index.html#calculator" class="btn-secondary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Plan retirement <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+      <article class="tool-card surface rounded-2xl p-5" data-category="Retirement" data-search="child higher education goal planner education inflation goal SIP">
+        <div class="flex items-start justify-between gap-3"><span class="icon-tile"><i data-lucide="graduation-cap" width="24"></i></span><span class="badge badge-category">Family goal</span></div><div class="mt-5"><span class="badge badge-category">Retirement</span><h3 class="text-xl font-bold mt-3">Child Higher Education Goal Planner</h3><p class="muted text-sm leading-relaxed mt-2">Project a future education cost and explore the monthly saving needed to work toward that goal.</p></div><div class="mt-auto pt-5"><a href="index.html#calculator" class="btn-secondary rounded-xl px-4 py-3 font-bold text-sm flex items-center justify-center gap-2">Plan education <i data-lucide="arrow-up-right" width="16"></i></a></div>
+      </article>
+    </div>
+    <div id="no-results" class="hidden surface rounded-2xl p-8 text-center mt-4"><span class="icon-tile mx-auto"><i data-lucide="search-x" width="24"></i></span><h3 class="font-bold text-lg mt-4">No calculators found</h3><p class="muted text-sm mt-2">Try a different search term or select another category.</p><button id="clear-search" class="btn-primary rounded-xl px-4 py-2.5 mt-4 font-bold text-sm">Clear filters</button></div>
+  </section>
+  <div class="ad-slot-responsive my-5" aria-label="Advertisement space">Advertisement</div>
+  <section id="guide" class="section-anchor py-10 sm:py-14">
+    <div class="max-w-4xl mx-auto">
+      <p class="brand font-bold text-sm">SMART MONEY GUIDE</p><h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-2">How to use financial calculators for better planning</h2>
+      <div class="muted leading-7 space-y-4 mt-5">
+        <p>Financial calculators can turn a broad money question into a set of assumptions you can examine. Whether you are planning a monthly investment, comparing a loan, estimating take-home pay or preparing for retirement, a calculator helps you understand the relationship between time, contributions, rates and costs. It is a planning aid—not a promise of a particular outcome.</p>
+        <p><strong class="text-current">Start with a clear goal.</strong> Decide what you want to estimate and when you will need the money. A retirement target several decades away has different assumptions from a home purchase planned in three years. Enter realistic amounts and use a time horizon that reflects your circumstances. For goal planning, include the possibility that future costs may rise.</p>
+        <p><strong class="text-current">Test more than one scenario.</strong> Avoid relying on a single expected return or interest rate. Compare a conservative assumption with a central estimate and a more optimistic case. For an SIP, contribution size and investment duration can substantially change the illustration. A step-up contribution may reflect expected income growth, but only use an increase you could reasonably maintain. Market-linked returns are variable and are not guaranteed.</p>
+        <p><strong class="text-current">Look beyond the headline number.</strong> For loans, review the EMI, total interest and remaining tenure—not only the monthly payment. A lower EMI over a longer term can increase total interest. Prepayment estimates should be checked against your lender's terms, fees and the effect on liquidity. For salary estimates, remember that CTC can include employer contributions, variable pay and benefits that do not arrive as monthly cash.</p>
+        <p><strong class="text-current">Account for tax and inflation.</strong> Nominal future amounts do not show what money may buy later. Inflation-adjusted values express a future sum in approximate today's purchasing power. Tax outcomes depend on the applicable financial year, income type, deductions and individual circumstances. Treat tax comparisons as estimates and verify current rules with official guidance or a qualified tax professional.</p>
+        <p><strong class="text-current">Review and update your plan.</strong> Save your assumptions, revisit them when income or goals change, and compare estimates with actual progress. Keep emergency savings and near-term obligations in mind before committing money to long-term investments. These tools are educational utilities, not personalised investment, tax or legal advice. Before acting, verify the inputs and consider speaking with an appropriately qualified professional.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="border-t line mt-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-9">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr] gap-8">
+      <div><a href="index.html" class="flex items-center gap-2 font-extrabold tracking-tight text-lg"><span class="w-9 h-9 rounded-xl flex items-center justify-center text-white" style="background:var(--brand)"><i data-lucide="trending-up" width="21"></i></span><span>SmartWealth<span class="brand">Calc</span></span></a><p class="muted text-sm leading-relaxed mt-3 max-w-sm">Free, browser-based financial tools to help you explore scenarios and make more informed questions about money.</p></div>
+      <div><h2 class="font-bold">Explore</h2><ul class="mt-3 space-y-2 text-sm muted"><li><a class="hover:brand" href="tools.html">All Tools</a></li><li><a class="hover:brand" href="index.html#calculator">SIP &amp; Wealth</a></li><li><a class="hover:brand" href="index.html#loan">Loan Prepayment</a></li><li><a class="hover:brand" href="index.html#tax">Tax Planner</a></li><li><a class="hover:brand" href="#guide">Guides</a></li></ul></div>
+      <div><h2 class="font-bold">Legal &amp; Information</h2><ul class="mt-3 space-y-2 text-sm muted"><li><a class="hover:brand" href="privacy.html">Privacy Policy</a></li><li><a class="hover:brand" href="terms.html">Terms of Use</a></li><li><a class="hover:brand" href="disclaimer.html">Disclaimer</a></li><li><a class="hover:brand" href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="border-t line mt-8 pt-5 flex flex-col sm:flex-row gap-3 justify-between text-xs muted"><p>© <span id="year"></span> SmartWealthCalc. All rights reserved.</p><p>Educational tool only, not SEBI-registered investment advice. Estimates are not guarantees.</p></div>
+  </div>
+</footer>
+<script>
+  const root=document.documentElement;
+  const themeToggle=document.getElementById('theme-toggle');
+  const themeIcon=document.getElementById('theme-icon');
+  function setTheme(dark){root.classList.toggle('dark',dark);themeIcon.setAttribute('data-lucide',dark?'sun':'moon');themeToggle.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');try{localStorage.setItem('swc-theme',dark?'dark':'light')}catch(e){}if(window.lucide)lucide.createIcons()}
+  let initialDark=false;try{initialDark=localStorage.getItem('swc-theme')==='dark'}catch(e){}setTheme(initialDark);
+  themeToggle.addEventListener('click',()=>setTheme(!root.classList.contains('dark')));
+  const menuToggle=document.getElementById('menu-toggle'),mobileNav=document.getElementById('mobile-nav');
+  menuToggle.addEventListener('click',()=>{const open=mobileNav.classList.toggle('hidden')===false;mobileNav.classList.toggle('flex',open);menuToggle.setAttribute('aria-expanded',String(open));menuToggle.innerHTML='<i data-lucide="'+(open?'x':'menu')+'" width="18"></i>';lucide.createIcons()});
+  mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileNav.classList.add('hidden');mobileNav.classList.remove('flex');menuToggle.setAttribute('aria-expanded','false');menuToggle.innerHTML='<i data-lucide="menu" width="18"></i>';lucide.createIcons()}));
+  const search=document.getElementById('tool-search'),cards=[...document.querySelectorAll('.tool-card')],filterButtons=[...document.querySelectorAll('[data-filter]')],count=document.getElementById('result-count'),empty=document.getElementById('no-results');
+  let activeFilter='All';
+  function filterTools(){const term=search.value.trim().toLowerCase();let shown=0;cards.forEach(card=>{const category=card.dataset.category.replaceAll('&amp;','&');const text=(card.dataset.search+' '+card.innerText).toLowerCase();const matchCategory=activeFilter==='All'||category===activeFilter;const matchText=!term||text.includes(term);const visible=matchCategory&&matchText;card.classList.toggle('hidden',!visible);if(visible)shown++});count.textContent='Showing '+shown+' of '+cards.length+' calculators';empty.classList.toggle('hidden',shown!==0)}
+  search.addEventListener('input',filterTools);
+  filterButtons.forEach(btn=>btn.addEventListener('click',()=>{activeFilter=btn.dataset.filter.replaceAll('&amp;','&');filterButtons.forEach(b=>{const active=b===btn;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});filterTools()}));
+  document.getElementById('clear-search').addEventListener('click',()=>{search.value='';activeFilter='All';filterButtons.forEach(b=>{const active=b.dataset.filter==='All';b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});filterTools();search.focus()});
+  document.getElementById('year').textContent=new Date().getFullYear();
+  if(window.lucide)lucide.createIcons();
+</script>
+</body>
+</html>
