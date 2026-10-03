@@ -65,7 +65,7 @@
       <div class="surface rounded-3xl p-5 sm:p-6">
         <h3 class="font-bold text-lg mb-5">Investment assumptions</h3>
         <div class="space-y-6">
-          <div><div class="flex items-center justify-between gap-3 mb-2"><label for="sip-number" class="font-semibold text-sm">Monthly investment</label><span class="text-xs muted">₹500 – ₹5,00,000</span></div><div class="grid grid-cols-[1fr_142px] gap-3 items-center"><input id="sip-range" type="range" min="500" max="500000" step="500" value="5000" aria-label="Monthly investment slider"><input id="sip-number" class="field text-right font-semibold" type="number" min="500" max="500000" step="any" value="5000" inputmode="numeric"></div></div>
+          <div><div class="flex items-center justify-between gap-3 mb-2"><label for="sip-number" class="font-semibold text-sm">Monthly investment</label><span class="text-xs muted">₹500 – ₹5,00,000</span></div><div class="flex items-center gap-3 mb-2"><span class="text-sm muted">₹</span><input id="sip-number" class="field text-right text-lg font-bold" type="text" inputmode="numeric" autocomplete="off" value="5,000" aria-label="Monthly investment amount" aria-describedby="sip-input-help"><button type="button" class="btn-secondary rounded-lg px-3 py-2 text-sm font-semibold" id="sip-clear" aria-label="Reset monthly investment">Reset</button></div><p id="sip-input-help" class="text-xs muted mb-3">Type any amount from ₹500 to ₹5,00,000. Example: 10000.</p><input id="sip-range" type="range" min="500" max="500000" step="500" value="5000" class="w-full" aria-label="Monthly investment slider"><div class="flex justify-between text-xs muted mt-1"><span>₹500</span><span>₹5,00,000</span></div></div>
           <div><div class="flex items-center justify-between gap-3 mb-2"><label for="return-number" class="font-semibold text-sm">Expected annual return</label><span class="text-xs muted">1% – 30%</span></div><div class="grid grid-cols-[1fr_110px] gap-3 items-center"><input id="return-range" type="range" min="1" max="30" step=".5" value="12" aria-label="Expected return slider"><div class="relative"><input id="return-number" class="field text-right pr-8 font-semibold" type="number" min="1" max="30" step=".5" value="12"><span class="absolute right-3 top-1/2 -translate-y-1/2 muted">%</span></div></div></div>
           <div><div class="flex items-center justify-between gap-3 mb-2"><label for="years-number" class="font-semibold text-sm">Investment period</label><span class="text-xs muted">1 – 40 years</span></div><div class="grid grid-cols-[1fr_110px] gap-3 items-center"><input id="years-range" type="range" min="1" max="40" step="1" value="15" aria-label="Investment period slider"><div class="relative"><input id="years-number" class="field text-right pr-12 font-semibold" type="number" min="1" max="40" step="1" value="15"><span class="absolute right-3 top-1/2 -translate-y-1/2 muted">years</span></div></div></div>
           <div class="pt-5 border-t line"><div class="flex items-center justify-between gap-3 mb-2"><label for="step-number" class="font-semibold text-sm">Annual step-up</label><span id="step-label" class="text-sm font-bold brand">10%</span></div><p class="text-xs muted mb-3">Increase your monthly SIP once each year.</p><input id="step-range" type="range" min="0" max="25" step="1" value="10" aria-label="Annual step-up percentage"><div class="flex justify-between text-xs muted mt-1"><span>0%</span><span>25%</span></div></div>
@@ -180,8 +180,9 @@
     growthChart.options.plugins.legend.labels.color=c.text;growthChart.options.scales.x.ticks.color=c.text;growthChart.options.scales.y.ticks.color=c.text;growthChart.options.scales.x.grid.color=c.grid;growthChart.options.scales.y.grid.color=c.grid;growthChart.update();
   }
   function render(){
-    const sip=clamp($('sip-number').value,500,500000),ret=clamp($('return-number').value,1,30),years=clamp($('years-number').value,1,40),step=clamp($('step-range').value,0,25),infl=clamp($('inflation-range').value,0,12);
-    $('sip-number').value=sip;$('return-number').value=ret;$('years-number').value=years;
+    const rawSip=String($('sip-number').value).replace(/[,₹\\s]/g,'').trim();
+    const sip=clamp(rawSip===''?5000:Number(rawSip),500,500000),ret=clamp($('return-number').value,1,30),years=clamp($('years-number').value,1,40),step=clamp($('step-range').value,0,25),infl=clamp($('inflation-range').value,0,12);
+    $('return-number').value=ret;$('years-number').value=years;
     $('sip-range').value=sip;$('return-range').value=ret;$('years-range').value=years;
     $('step-label').textContent=step+'%';$('inflation-label').textContent=infl+'%';
     const d=calculate(sip,ret,years,step,infl);lastCalc=d;
@@ -191,34 +192,42 @@
     $('contribution-note').textContent=years+' years • '+d.months+' monthly contributions';
     updateCharts(d);
   }
-  fields.forEach(([range,num,min,max,step])=>{
+  // SIP uses a text input with numeric input mode so users can freely replace
+  // the whole amount (including commas) without the browser's number-step rules.
+  function readSipInput(){return Number(String($('sip-number').value).replace(/[,₹\\s]/g,'').trim());}
+  function formatSipInput(value){return new Intl.NumberFormat('en-IN',{maximumFractionDigits:0}).format(value);}
+  function commitSipInput(){
+    const raw=readSipInput();
+    const value=clamp(Number.isFinite(raw)&&String($('sip-number').value).trim()!==''?raw:5000,500,500000);
+    $('sip-number').value=formatSipInput(value);
+    $('sip-range').value=String(value);
+    render();
+  }
+  $('sip-number').addEventListener('input',()=>{
+    const text=$('sip-number').value.trim();
+    if(text===''){$('sip-range').value='500';return;}
+    const raw=readSipInput();
+    if(!Number.isFinite(raw))return;
+    const value=clamp(raw,500,500000);
+    $('sip-range').value=String(value);
+    // render() intentionally does not rewrite the text input while typing.
+    render();
+  });
+  $('sip-number').addEventListener('change',commitSipInput);
+  $('sip-number').addEventListener('blur',commitSipInput);
+  $('sip-clear').addEventListener('click',()=>{$('sip-number').value='';$('sip-number').focus();});
+  $('sip-range').addEventListener('input',()=>{$('sip-number').value=formatSipInput(Number($('sip-range').value));render();});
+  fields.filter(([range])=>range!=='sip-range').forEach(([range,num,min,max])=>{
     $(range).addEventListener('input',()=>{ $(num).value=$(range).value;render(); });
-    // Do not clamp or rewrite the number field while the user is typing.
-    // This allows replacing 500 with 10000 naturally without fighting the cursor.
-    $(num).addEventListener('input',()=>{
-      const text=$(num).value.trim();
-      if(text==='') return;
-      const raw=Number(text);
-      if(!Number.isFinite(raw)) return;
-      $(range).value=String(clamp(raw,min,max));
-      render();
-    });
-    const commitNumber=()=>{
-      const text=$(num).value.trim();
-      const raw=text===''?min:Number(text);
-      const value=clamp(Number.isFinite(raw)?raw:min,min,max);
-      $(num).value=String(value);
-      $(range).value=String(value);
-      render();
-    };
-    $(num).addEventListener('change',commitNumber);
-    $(num).addEventListener('blur',commitNumber);
+    $(num).addEventListener('input',()=>{if($(num).value.trim()==='')return;const raw=Number($(num).value);if(!Number.isFinite(raw))return;$(range).value=String(clamp(raw,min,max));render();});
+    const commit=()=>{const raw=$(num).value.trim()===''?min:Number($(num).value);const value=clamp(Number.isFinite(raw)?raw:min,min,max);$(num).value=String(value);$(range).value=String(value);render();};
+    $(num).addEventListener('change',commit);$(num).addEventListener('blur',commit);
   });
   $('step-range').addEventListener('input',render);$('inflation-range').addEventListener('input',render);
   function applyPreset(name){
-    if(name==='crore'){ $('sip-number').value=25000;$('return-number').value=12;$('years-number').value=15;$('step-range').value=10;$('inflation-range').value=6; }
-    if(name==='retire'){ $('sip-number').value=15000;$('return-number').value=12;$('years-number').value=20;$('step-range').value=10;$('inflation-range').value=6; }
-    if(name==='child'){ $('sip-number').value=10000;$('return-number').value=11;$('years-number').value=15;$('step-range').value=10;$('inflation-range').value=6; }
+    if(name==='crore'){ $('sip-number').value='25,000';$('return-number').value=12;$('years-number').value=15;$('step-range').value=10;$('inflation-range').value=6; }
+    if(name==='retire'){ $('sip-number').value='15,000';$('return-number').value=12;$('years-number').value=20;$('step-range').value=10;$('inflation-range').value=6; }
+    if(name==='child'){ $('sip-number').value='10,000';$('return-number').value=11;$('years-number').value=15;$('step-range').value=10;$('inflation-range').value=6; }
     render();
   }
   document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>applyPreset(b.dataset.preset)));
