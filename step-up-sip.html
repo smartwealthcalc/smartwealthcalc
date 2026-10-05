@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>Step-Up SIP Calculator — SmartWealthCalc</title>
+<meta name="description" content="Advanced Step-Up SIP calculator with annual contribution increases, goal planning, inflation-adjusted value and year-by-year projections.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://smartwealthcalc.vercel.app/step-up-sip.html">
+<!-- G-TAG HERE -->
+<!-- ADSENSE CODE HERE -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    :root{color-scheme:light;--bg:#f5f7fb;--surface:#fff;--ink:#152238;--muted:#65748b;--line:#e4eaf2;--brand:#2563eb;--brand2:#0d9488;--soft:#eff6ff;--shadow:0 12px 36px rgba(15,23,42,.06)}
+    html.dark{color-scheme:dark;--bg:#0b1220;--surface:#111c2e;--ink:#e8eef8;--muted:#9aabc2;--line:#26364d;--brand:#7aa7ff;--brand2:#5eead4;--soft:#142b48;--shadow:0 12px 36px rgba(0,0,0,.18)}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background .2s,color .2s}
+    .surface{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}.muted{color:var(--muted)}.line{border-color:var(--line)}.brand{color:var(--brand)}.btn-primary{background:var(--brand);color:white}.btn-primary:hover{filter:brightness(1.08)}.btn-secondary{border:1px solid var(--line);background:var(--surface);color:var(--ink)}.btn-secondary:hover{background:var(--soft)}.toggle-control{display:inline-flex;align-items:center;gap:.55rem;cursor:pointer;user-select:none}.toggle-control input{position:absolute;opacity:0;width:1px;height:1px}.toggle-track{position:relative;width:2.65rem;height:1.5rem;border-radius:999px;background:#94a3b8;transition:background .18s;flex:none}.toggle-track:after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:white;box-shadow:0 1px 3px #0003;transition:transform .18s}.toggle-control input:checked+.toggle-track{background:var(--brand)}.toggle-control input:checked+.toggle-track:after{transform:translateX(1.15rem)}.toggle-control input:focus-visible+.toggle-track{outline:3px solid var(--brand);outline-offset:3px}.toggle-control input:not(:checked)~span:last-child{color:var(--muted)}
+    .field{width:100%;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:.75rem;padding:.65rem .8rem;outline:none}.field:focus{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)}input[type=range]{width:100%;accent-color:var(--brand);cursor:pointer}.chip{border:1px solid var(--line);border-radius:999px;padding:.45rem .8rem;font-size:.82rem;font-weight:600;background:var(--surface);color:var(--ink)}.chip:hover,.chip.active{border-color:var(--brand);background:var(--soft);color:var(--brand)}.metric{border:1px solid var(--line);background:var(--surface);border-radius:1rem;padding:1rem}.metric-value{font-size:clamp(1.15rem,2vw,1.6rem);font-weight:750;letter-spacing:-.035em;overflow-wrap:anywhere}.ad-slot-responsive{width:100%;min-height:90px;display:flex;align-items:center;justify-content:center;border:1px dashed var(--line);border-radius:1rem;color:var(--muted);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;background:color-mix(in srgb,var(--surface) 70%,transparent)}.faq-item{border-bottom:1px solid var(--line)}.faq-item summary{cursor:pointer;list-style:none;padding:1rem 2rem 1rem 0;font-weight:650;position:relative}.faq-item summary::-webkit-details-marker{display:none}.faq-item summary:after{content:"+";position:absolute;right:.2rem;font-size:1.3rem;color:var(--brand);top:.75rem}.faq-item[open] summary:after{content:"−"}.section-anchor{scroll-margin-top:90px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:580px}th,td{padding:.85rem .9rem;text-align:right;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}th:first-child,td:first-child{text-align:left}thead{background:var(--soft)}.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.skip-link{position:absolute;left:-9999px}.skip-link:focus{left:1rem;top:1rem;z-index:100;background:var(--surface);padding:1rem}
+    @media print{body{background:white!important;color:#111!important}.no-print,header,footer,.ad-slot-responsive,#guides,#faq,#examples,#explainer{display:none!important}.surface,.metric{box-shadow:none!important;border:1px solid #ddd!important;background:white!important;color:#111!important}.muted{color:#444!important}main{max-width:100%!important;padding:0!important}.print-only{display:block!important}}
+    .print-only{display:none}
+  </style>
+<style>
+.hero-grid{background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 7%,var(--surface)),var(--surface));}
+</style>
+</head>
+<body>
+<header class="sticky top-0 z-40 border-b line no-print" style="background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+    <a href="#" class="flex items-center gap-2 font-extrabold tracking-tight text-lg" aria-label="SmartWealthCalc home"><span class="w-9 h-9 rounded-xl flex items-center justify-center text-white" style="background:var(--brand)"><i data-lucide="trending-up" width="21"></i></span><span>SmartWealth<span class="brand">Calc</span></span></a>
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold muted" aria-label="Main navigation"><a href="tools.html" class="hover:brand">All Tools</a><a href="index.html#calculator" class="hover:brand">SIP & Wealth</a><a href="index.html#loan" class="hover:brand">Loan Prepayment</a><a href="index.html#tax" class="hover:brand">Tax Planner</a><a href="index.html#guides" class="hover:brand">Guides</a></nav>
+    <div class="flex items-center gap-2"><button id="theme-toggle" class="btn-secondary rounded-xl p-2.5" aria-label="Switch color theme" title="Toggle dark/light mode"><i data-lucide="moon" id="theme-icon" width="18"></i></button><button id="menu-toggle" class="btn-secondary rounded-xl p-2.5 lg:hidden" aria-label="Toggle navigation"><i data-lucide="menu" width="18"></i></button></div>
+  </div>
+  <nav id="mobile-nav" class="hidden lg:hidden px-4 pb-4 flex-col gap-3 text-sm font-semibold muted"><a href="tools.html">All Tools</a><a href="index.html#calculator">SIP & Wealth</a><a href="index.html#loan">Loan Prepayment</a><a href="index.html#tax">Tax Planner</a><a href="index.html#guides">Guides</a></nav>
+</header>
+<main class="max-w-7xl mx-auto px-4 sm:px-6">
+<section class="pt-10 pb-6">
+<div class="grid lg:grid-cols-[1fr_.9fr] gap-7 items-center">
+<div><span class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold" style="background:var(--soft);color:var(--brand)"><i data-lucide="trending-up" width="15"></i> ADVANCED SIP PLANNER</span>
+<h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight mt-4">Step-Up SIP Calculator<br><span class="brand">Grow your SIP with your income.</span></h1>
+<p class="muted text-lg leading-relaxed mt-4 max-w-2xl">Model a normal SIP versus an annual step-up, see exactly how much extra you contribute, and understand the projected wealth difference over time.</p>
+<div class="flex flex-wrap gap-2 mt-5"><button class="chip" data-preset="10">10% Step-Up</button><button class="chip" data-preset="15">15% Step-Up</button><button class="chip" data-preset="25">25% Step-Up</button><button class="chip" id="reset">Reset</button></div>
+</div>
+<div class="surface hero-grid rounded-3xl p-6"><p class="text-sm muted font-semibold">Projected corpus</p><p id="hero" class="text-4xl font-extrabold mt-1 brand">₹0</p><div class="grid grid-cols-2 gap-3 mt-5"><div class="rounded-2xl p-4" style="background:var(--soft)"><p class="text-xs muted">Step-Up gain</p><p id="hero-gain" class="font-bold text-lg mt-1">₹0</p></div><div class="rounded-2xl p-4" style="background:var(--soft)"><p class="text-xs muted">Extra invested</p><p id="hero-extra" class="font-bold text-lg mt-1">₹0</p></div></div></div>
+</div></section>
+<div class="ad-slot-responsive my-5 no-print">Advertisement</div>
+<section class="grid lg:grid-cols-[.9fr_1.1fr] gap-5 items-start py-5">
+<div class="surface rounded-3xl p-5 sm:p-6">
+<h2 class="text-xl font-extrabold mb-5">Your Step-Up plan</h2>
+<div class="space-y-5">
+<label class="block text-sm font-semibold">Starting monthly SIP<div class="flex gap-3 mt-2"><span class="self-center muted">₹</span><input id="sip" class="field text-lg font-bold" type="text" inputmode="numeric" value="10,000"><button id="sip-reset" class="btn-secondary rounded-xl px-3 font-semibold">Reset</button></div></label>
+<input id="sip-range" type="range" min="500" max="500000" step="500" value="10000"><div class="flex justify-between text-xs muted"><span>₹500</span><span>₹5,00,000</span></div>
+<div><div class="flex justify-between text-sm font-semibold"><span>Expected annual return</span><span id="ret-label" class="brand">12%</span></div><input id="ret" type="range" min="1" max="30" step=".5" value="12" class="mt-2"><div class="flex justify-between text-xs muted"><span>1%</span><span>30%</span></div></div>
+<div><div class="flex justify-between text-sm font-semibold"><span>Investment period</span><span id="years-label" class="brand">15 years</span></div><input id="years" type="range" min="1" max="40" step="1" value="15" class="mt-2"><div class="flex justify-between text-xs muted"><span>1</span><span>40 years</span></div></div>
+<div class="pt-4 border-t line"><div class="flex items-center justify-between"><div><p class="font-semibold">Annual Step-Up</p><p class="text-xs muted mt-1">Increase your SIP at the start of each year.</p></div><label class="toggle-control"><input id="step-on" type="checkbox" checked><span class="toggle-track"></span><span id="step-state" class="text-xs font-semibold">On</span></label></div>
+<div id="step-wrap" class="mt-3"><div class="flex justify-between text-sm"><span class="muted">Yearly increase</span><span id="step-label" class="brand font-bold">10%</span></div><input id="step" type="range" min="0" max="25" step="1" value="10" class="mt-2"><div class="flex justify-between text-xs muted"><span>0%</span><span>25%</span></div></div></div>
+<div class="pt-4 border-t line"><div class="flex items-center justify-between"><div><p class="font-semibold">Inflation adjustment</p><p class="text-xs muted mt-1">Translate your final corpus into today's money.</p></div><label class="toggle-control"><input id="infl-on" type="checkbox" checked><span class="toggle-track"></span><span id="infl-state" class="text-xs font-semibold">On</span></label></div>
+<div id="infl-wrap" class="mt-3"><div class="flex justify-between text-sm"><span class="muted">Inflation</span><span id="infl-label" class="brand font-bold">6%</span></div><input id="infl" type="range" min="0" max="12" step=".5" value="6" class="mt-2"><div class="flex justify-between text-xs muted"><span>0%</span><span>12%</span></div></div></div>
+</div>
+<div class="mt-5 rounded-2xl p-4 text-sm muted" style="background:var(--soft)"><i data-lucide="info" class="brand" width="17"></i> Illustrative estimate only. Actual market returns vary. Contributions are assumed at month-end.</div>
+</div>
+<div class="space-y-5">
+<div class="grid sm:grid-cols-2 gap-3"><div class="metric"><p class="text-sm muted">Total invested</p><p id="invested" class="metric-value mt-2">₹0</p></div><div class="metric"><p class="text-sm muted">Step-Up future value</p><p id="step-value" class="metric-value mt-2 brand">₹0</p></div><div class="metric"><p class="text-sm muted">Normal SIP future value</p><p id="normal-value" class="metric-value mt-2">₹0</p></div><div class="metric"><p class="text-sm muted">Today's purchasing power</p><p id="real" class="metric-value mt-2">₹0</p></div></div>
+<div class="surface rounded-3xl p-5"><div class="flex justify-between items-center"><div><h2 class="font-extrabold">Normal SIP vs Step-Up</h2><p class="text-sm muted mt-1">Projected corpus comparison</p></div></div><div class="h-72 mt-3"><canvas id="chart"></canvas></div></div>
+<div class="surface rounded-3xl p-5"><h2 class="font-extrabold">Year-by-year projection</h2><div class="table-wrap mt-3"><table><thead><tr><th>Year</th><th>Annual SIP</th><th>Total invested</th><th>Step-Up corpus</th><th>Normal SIP corpus</th></tr></thead><tbody id="rows"></tbody></table></div></div>
+</div></section>
+<section class="py-8"><div class="grid md:grid-cols-3 gap-5">
+<article class="surface rounded-3xl p-6"><i data-lucide="rocket" class="brand" width="23"></i><h2 class="font-extrabold text-xl mt-3">Why Step-Up works</h2><p class="muted leading-relaxed mt-2">When your SIP rises with income, more money gets invested while the earlier contributions continue compounding. The effect becomes more visible over longer periods.</p></article>
+<article class="surface rounded-3xl p-6"><i data-lucide="calculator" class="brand" width="23"></i><h2 class="font-extrabold text-xl mt-3">Compare before choosing</h2><p class="muted leading-relaxed mt-2">Use the normal SIP baseline alongside the Step-Up scenario so you can see both the additional contribution and the potential difference in projected corpus.</p></article>
+<article class="surface rounded-3xl p-6"><i data-lucide="shield-check" class="brand" width="23"></i><h2 class="font-extrabold text-xl mt-3">Use realistic assumptions</h2><p class="muted leading-relaxed mt-2">A higher assumed return increases the illustration, but it also increases uncertainty. Treat the result as a planning scenario, not a promise.</p></article>
+</div></section>
+</main>
+<footer class="border-t line" style="background:var(--surface)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8"><div class="grid md:grid-cols-[1fr_auto] gap-6"><div><a href="index.html" class="font-extrabold text-lg">SmartWealth<span class="brand">Calc</span></a><p class="muted text-sm mt-3 max-w-2xl leading-relaxed">Disclaimer: Educational tool only, not SEBI-registered investment advice. Estimates are hypothetical and do not guarantee returns. Consult a qualified professional for advice specific to your circumstances. Tax rules may change.</p><p class="muted text-xs mt-3">Privacy first: calculator inputs are processed locally in your browser.</p></div><div class="flex flex-wrap gap-x-5 gap-y-2 text-sm muted"><a href="#privacy" id="privacy-link" class="hover:brand">Privacy</a><a href="#terms" id="terms-link" class="hover:brand">Terms</a><a href="#disclaimer" id="disclaimer-link" class="hover:brand">Disclaimer</a><a href="#contact" id="contact-link" class="hover:brand">Contact</a></div></div><div class="border-t line mt-6 pt-5 flex flex-col sm:flex-row justify-between gap-2 text-xs muted"><span>© <span id="year"></span> SmartWealthCalc. All rights reserved.</span><span>Built for informed learning, not guaranteed outcomes.</span></div></div>
+</footer>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const fmt=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number.isFinite(n)?n:0);
+const compact=n=>n>=1e7?'₹'+(n/1e7).toFixed(n>=1e8?1:2)+' Cr':fmt(n);
+const clamp=(n,a,b)=>Math.min(b,Math.max(a,Number(n)||a));
+let chart;
+function calc(sip,ret,years,step,infl){
+ const r=ret/1200, rows=[{year:0,annual:0,invested:0,stepCorpus:0,normalCorpus:0}];
+ let sc=0,nc=0,invested=0;
+ for(let m=1;m<=years*12;m++){
+  const annualSip=sip*Math.pow(1+step/100,Math.floor((m-1)/12));
+  invested+=annualSip;sc=sc*(1+r)+annualSip;nc=nc*(1+r)+sip;
+  if(m%12===0||m===years*12)rows.push({year:Math.ceil(m/12),annual:annualSip*12,invested,stepCorpus:sc,normalCorpus:nc});
+ }
+ return {rows,invested,sc,nc,real:sc/Math.pow(1+infl/100,years)};
+}
+function render(){
+ const sipRaw=String($('sip').value).replace(/[,₹\s]/g,'');let sip=clamp(sipRaw||10000,500,500000);
+ if(document.activeElement!==$('sip'))$('sip').value=new Intl.NumberFormat('en-IN').format(sip);
+ $('sip-range').value=sip;
+ const ret=clamp($('ret').value,1,30),years=clamp($('years').value,1,40),step=$('step-on').checked?clamp($('step').value,0,25):0,infl=$('infl-on').checked?clamp($('infl').value,0,12):0;
+ $('ret-label').textContent=ret+'%';$('years-label').textContent=years+' years';$('step-label').textContent=step+'%';$('infl-label').textContent=infl+'%';
+ const d=calc(sip,ret,years,step,infl);
+ $('invested').textContent=fmt(d.invested);$('step-value').textContent=fmt(d.sc);$('normal-value').textContent=fmt(d.nc);$('real').textContent=fmt(d.real);
+ $('hero').textContent=compact(d.sc);$('hero-gain').textContent=fmt(Math.max(0,d.sc-d.nc));$('hero-extra').textContent=fmt(Math.max(0,d.invested-sip*years*12));
+ $('rows').innerHTML=d.rows.slice(1).map(x=>'<tr><td>'+x.year+'</td><td>'+fmt(x.annual/12)+'/mo</td><td>'+fmt(x.invested)+'</td><td>'+fmt(x.stepCorpus)+'</td><td>'+fmt(x.normalCorpus)+'</td></tr>').join('');
+ if(chart){chart.data.labels=d.rows.map(x=>x.year===0?'Start':'Year '+x.year);chart.data.datasets[0].data=d.rows.map(x=>x.stepCorpus);chart.data.datasets[1].data=d.rows.map(x=>x.normalCorpus);chart.update();}
+}
+function initChart(){
+ const cs=getComputedStyle(document.documentElement);const brand=cs.getPropertyValue('--brand').trim(),brand2=cs.getPropertyValue('--brand2').trim(),muted=cs.getPropertyValue('--muted').trim(),line=cs.getPropertyValue('--line').trim();
+ chart=new Chart($('chart'),{type:'line',data:{labels:['Start'],datasets:[{label:'Step-Up SIP',data:[0],borderColor:brand,backgroundColor:brand+'22',fill:true,tension:.25},{label:'Normal SIP',data:[0],borderColor:brand2,backgroundColor:brand2,tension:.25,fill:false}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:muted,usePointStyle:true}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},scales:{x:{ticks:{color:muted},grid:{color:line}},y:{ticks:{color:muted,callback:v=>compact(v)},grid:{color:line}}}}});
+}
+$('sip').addEventListener('input',()=>{const v=Number(String($('sip').value).replace(/[,₹\s]/g,''));if(Number.isFinite(v)&&v>0){$('sip-range').value=clamp(v,500,500000);render();}else render();});
+$('sip').addEventListener('blur',()=>{$('sip').value=new Intl.NumberFormat('en-IN').format(clamp(Number(String($('sip').value).replace(/[,₹\s]/g,''))||10000,500,500000));render();});
+$('sip-range').addEventListener('input',()=>{$('sip').value=new Intl.NumberFormat('en-IN').format(Number($('sip-range').value));render();});
+$('sip-reset').addEventListener('click',()=>{$('sip').value='10000';render();});
+$('ret').addEventListener('input',render);$('years').addEventListener('input',render);$('step').addEventListener('input',render);$('infl').addEventListener('input',render);
+function sync(){ $('step-wrap').hidden=!$('step-on').checked;$('infl-wrap').hidden=!$('infl-on').checked;$('step-state').textContent=$('step-on').checked?'On':'Off';$('infl-state').textContent=$('infl-on').checked?'On':'Off';render();}
+$('step-on').addEventListener('change',sync);$('infl-on').addEventListener('change',sync);
+document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{$('step').value=b.dataset.preset;$('step-on').checked=true;sync();}));
+$('reset').addEventListener('click',()=>{$('sip').value='10000';$('ret').value=12;$('years').value=15;$('step').value=10;$('infl').value=6;$('step-on').checked=true;$('infl-on').checked=true;sync();});
+$('theme-toggle').addEventListener('click',()=>{const dark=document.documentElement.classList.toggle('dark');localStorage.setItem('swc-theme',dark?'dark':'light');$('theme-icon').setAttribute('data-lucide',dark?'sun':'moon');lucide.createIcons();});
+$('menu-toggle').addEventListener('click',()=>{$('mobile-nav').classList.toggle('hidden');$('mobile-nav').classList.toggle('flex');});
+document.querySelectorAll('footer a[href^="#"]').forEach(a=>a.addEventListener('click',e=>e.preventDefault()));
+if(localStorage.getItem('swc-theme')==='dark')document.documentElement.classList.add('dark');
+initChart();sync();lucide.createIcons();
+})();
+</script>
+</body></html>
